@@ -1,0 +1,14 @@
+lxc.mount.entry = /dev/dri dev/dri none bind,optional,create=dir
+lxc.mount.entry = /dev/snd dev/snd none bind,optional,create=dir
+lxc.mount.entry = /tmp/.X11-unix tmp/.X11-unix none bind,optional,create=dir
+lxc.mount.entry = /dev/video0 dev/video0 none bind,optional,create=file
+
+lxc.hook.pre-start = /home/jerome/.local/share/lxc/test-container/setup-pulse.sh
+
+
+lxc.id_map = u 0 100000 1000
+lxc.id_map = g 0 100000 1000
+lxc.id_map = u 1000 1000 1
+lxc.id_map = g 1000 1000 1
+lxc.id_map = u 1001 101001 64535
+lxc.id_map = g 1001 101001 64535

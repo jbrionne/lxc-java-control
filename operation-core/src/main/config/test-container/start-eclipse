@@ -1,0 +1,20 @@
+#!/bin/sh
+CONTAINER=test-container
+CMD_LINE="/home/ubuntu/eclipse/eclipse"
+
+STARTED=false
+
+if ! sudo lxc-wait -n $CONTAINER -s RUNNING -t 0; then
+    sudo lxc-start -n $CONTAINER -d
+    sudo lxc-wait -n $CONTAINER -s RUNNING
+    STARTED=true
+fi
+
+PULSE_SOCKET=/home/ubuntu/.pulse_socket
+
+sudo lxc-attach --clear-env -n $CONTAINER -- sudo -u ubuntu -i \
+    env DISPLAY=$DISPLAY PULSE_SERVER=$PULSE_SOCKET $CMD_LINE
+
+if [ "$STARTED" = "true" ]; then
+    sudo lxc-stop -n $CONTAINER -t 10
+fi
