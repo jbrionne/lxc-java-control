@@ -21,5 +21,10 @@ public class CommandResult {
 	}	
 	public String getErrorStream() {
 		return errorStream;
+	}
+
+	@Override
+	public String toString() {
+		return "CommandResult [exitValue=" + exitValue + "]";
 	}	
 }

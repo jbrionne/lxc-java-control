@@ -35,7 +35,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>fr.operation.core.Main</mainClass>
+							<mainClass>fr.operation.core.MainDev</mainClass>
 						</manifest>
 					</archive>
 				</configuration>

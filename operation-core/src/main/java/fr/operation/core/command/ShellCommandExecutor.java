@@ -27,14 +27,14 @@ public class ShellCommandExecutor implements Command {
 	}
 
 	public ShellCommandExecutor(String sudoPassword) {
-		this.sudoCommand = "echo \"" + sudoPassword + "\"| sudo -S ";
+		this.sudoCommand = "echo \"" + sudoPassword + "\"| sudo -S -- sh -c \"";
 	}
 
 	public String putEnv(String key, String value) {
 		return envVariables.put(key, value);
 	}
 
-	public CommandResult cinternal(String... command) {
+	private CommandResult cinternal(String... command) {
 		try {
 			ProcessBuilder pb = new ProcessBuilder();
 			pb.command(command);
@@ -75,12 +75,14 @@ public class ShellCommandExecutor implements Command {
 	public CommandResult c(String command) {
 		CommandResult res = null;
 		if (sudoCommand != null && !sudoCommand.isEmpty()) {
-			res = cinternal("/bin/bash", "-c", sudoCommand + command);
+			res = cinternal("/bin/bash", "-c", sudoCommand + command + "\"");
 		} else {
 			res = cinternal("/bin/bash", "-c", command);
 		}
 		LOG.debug(command + " : " + res);
 		return res;
 	}
+	
+	
 
 }

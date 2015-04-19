@@ -78,12 +78,12 @@ public class LxcCommand {
 		return ex.c(s("lxc-ls --fancy"));
 	}
 
-	public CommandResult lxcCustomCommand(String command) {
-		return ex.c(command);
-	}
-
 	public CommandResult lxcStop(String containerName) {
 		return ex.c(s("lxc-stop -n %s", containerName));
+	}
+	
+	public CommandResult lxcStopTimeout(String containerName, String timeout) {
+		return ex.c(s("lxc-stop -n %s -t %s", containerName, timeout));
 	}
 
 	private String s(String format, Object... args) {

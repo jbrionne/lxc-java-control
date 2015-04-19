@@ -1,14 +1,24 @@
 package fr.operation.core;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import fr.operation.core.command.CommandResult;
+
 public class Util {
+
+	private static final Logger LOG = LoggerFactory.getLogger(Util.class);
 
 	private Util() {
 		throw new AssertionError("static");
 	}
 
-	static String extract(String log) {
+
+	public static String extract(String log) {
 		// Name: test-container
 		// State: RUNNING
 		// PID: 23692
@@ -37,6 +47,29 @@ public class Util {
 			}
 		}
 		return "";
+	}
+
+	public static List<lxcLsFancy> extractTab(String log) {
+		List<lxcLsFancy> lst = new ArrayList<lxcLsFancy>();
+		// NAME STATE IPV4 IPV6 AUTOSTART
+		// ----------------------------------------------------
+		// dhcp-container RUNNING 10.0.3.215 - NO
+		String lines[] = log.split("\\r?\\n");
+		int index = 0;
+		for (String s : lines) {
+			if (s != null && !s.isEmpty() && index >= 2) {
+				String[] ls = s.split(" +");
+				lxcLsFancy c = new lxcLsFancy();
+				c.setName(ls[0]);
+				c.setState(ls[1]);
+				c.setIpv4(ls[2]);
+				c.setIpv6(ls[3]);
+				c.setAutostart(ls[4]);
+				lst.add(c);
+			}
+			index++;
+		}
+		return lst;
 	}
 
 	static boolean isIPAddress(String str) {

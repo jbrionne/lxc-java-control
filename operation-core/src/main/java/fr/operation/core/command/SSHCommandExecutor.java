@@ -28,12 +28,16 @@ public class SSHCommandExecutor implements Command {
 	private String password;
 	private JSch jsch = new JSch();
 	private Session session;
+	private boolean autoSudo;
+	private String sudoCommand;
 	
-	public SSHCommandExecutor(String host, String user, String password) {
+	public SSHCommandExecutor(String host, String user, String password, boolean autoSudo) {
 		super();
 		this.host = host;
 		this.user = user;
 		this.password = password;
+		this.autoSudo = autoSudo;		
+		this.sudoCommand = "echo \"" + password + "\"| sudo -S -- sh -c \"";
 	}
 
 	public void connect() {
@@ -49,9 +53,8 @@ public class SSHCommandExecutor implements Command {
 			LOG.error("", e);
 		}
 	}
-
-	@Override
-	public CommandResult c(String command) {
+	
+	private CommandResult cinternal(String command) {
 		try {
 			LOG.info("COMMAND " + command);
 			Channel channel = session.openChannel("exec");			
@@ -85,9 +88,19 @@ public class SSHCommandExecutor implements Command {
 		}
 		return new CommandResult(0, "", "");
 	}
-
-	public void disconnect() {
-		
+	
+	public CommandResult c(String command) {
+		CommandResult res = null;
+		if (autoSudo) {
+			res = cinternal(sudoCommand + command + "\"");
+		} else {
+			res = cinternal(command);
+		}
+		LOG.debug(command + " : " + res);
+		return res;
+	}
+	
+	public void disconnect() {		
 		session.disconnect();
 	}
 }
