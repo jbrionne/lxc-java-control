@@ -23,7 +23,7 @@ public class MainDev {
 
 		// lxc-attach -n yourlxc adduser username
 
-		ShellCommandExecutor exShell = new ShellCommandExecutor("XXXXXX");
+		ShellCommandExecutor exShell = new ShellCommandExecutor("XXX");
 		String passPhrase = "passPhrase";
 		
 		String ipContainer = UtilLxcInit.initSsh(containerName, Enviro.TEMPLATE_UBUNTU, exShell, false, passPhrase, Enviro.HOME_CONFIG);			
@@ -34,7 +34,7 @@ public class MainDev {
 		UtilInit.scp(CONFIG + eclipse, "/home/" + Enviro.USERNAME_UBUNTU, Enviro.USERNAME_UBUNTU, Enviro.PASSWORD_UBUNTU, exShell,
 				ipContainer);
 		UtilInit.scp(CONFIG + jdk, "/home/" + Enviro.USERNAME_UBUNTU, Enviro.USERNAME_UBUNTU, Enviro.PASSWORD_UBUNTU, exShell,
-				ipContainer);
+				ipContainer);		
 
 		SSHCommandExecutor exSsh = new SSHCommandExecutor(ipContainer,
 				Enviro.USERNAME_UBUNTU, Enviro.PASSWORD_UBUNTU, false);
@@ -49,9 +49,24 @@ public class MainDev {
 		exSsh.c("tar -xvf " + eclipse);
 		exSsh.c("tar -xvf " + jdk);
 
-		exSsh.c("sudo -u ubuntu chmod +x /home/ubuntu/eclipse/eclipse");
+		exSsh.c("sudo -u ubuntu chmod +x /home/ubuntu/eclipse/eclipse");	
+		
+		
+		//String shell = "~/.bashrc";
+//				String shell = "/etc/profile";
+					
+//		exSsh2.c("tar -xvf " + jdktar);
+//		exSsh2.c("rm -rf " + jdktar);	
+	//	
+//		String javaHome = "/home/" + newusername + "/" + jdk;
+	//	
+//		exSsh2.c("echo 'export JAVA_HOME=" + javaHome + "' >> " + shell);
+//		exSsh2.c("echo 'export PATH=" + javaHome  + "/bin:$PATH' >> " + shell);	
+	//	
+//		exSsh2.c("source " + shell);		
+//		 
 
-	
+		
 		
 		exSsh.disconnect();
 		

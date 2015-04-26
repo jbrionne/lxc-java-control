@@ -45,7 +45,7 @@ public class UtilInit {
 				+ "' scp -o 'StrictHostKeyChecking no' " + filePath + " "
 				+ username + "@" + ipContainer + ":" + destPath);
 		LOG.info("" + c.getExitValue());
-	}
+	}	
 	
 	public static void removeOldUserAndAddANew(String oldusername,
 			String olduserpassword, String newusername,

@@ -23,7 +23,7 @@ public class MainPrepareLxc {
 	public static final String CONFIGEDEFAULTTCLXC2 = "/etc/default/lxc-net";
 
 	public static void main(String[] args) throws InterruptedException {
-		ShellCommandExecutor exShell = new ShellCommandExecutor("XXXXXX");
+		ShellCommandExecutor exShell = new ShellCommandExecutor("XXX");
 		prepareLxc(exShell);
 	}
 
